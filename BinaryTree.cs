@@ -6,61 +6,66 @@ using System.Threading.Tasks;
 
 namespace HashAndBinary
 {
-    public  class BinaryTree
-    {
-        public Node root { get; set; }
-
-        public bool Add(int value)
+    
+        public class BinaryTree
         {
-            Node before = null;
-            Node after = this.root;
+            public Node root { get; set; }
 
-            if (after != null)
+            public bool Add(int value)
             {
-                before = after;
-                if (value < after.data)
+                Node before = null;
+                Node after = this.root;
+
+                if (after != null)
                 {
-                    after = after.LeftNode;
+                    before = after;
+                    if (value < after.data)
+                    {
+                        after = after.LeftNode;
+                    }
+                    else if (value > after.data)
+                    {
+                        after = after.RightNode;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else if (value > after.data)
+
+                Node newNode = new Node();
+                newNode.data = value;
+                if (this.root == null)
                 {
-                    after = after.RightNode;
+                    this.root = newNode;
                 }
                 else
                 {
-                    return false;
+                    if (value < before.data)
+                    {
+                        before.LeftNode = newNode;
+                    }
+                    else
+                    {
+                        before.RightNode = newNode;
+                    }
+
                 }
+                return true;
             }
 
-            Node newNode = new Node();
-            newNode.data = value;
-            if (this.root == null)
+            public void TraversePreorder(Node Parent)
             {
-                this.root = newNode;
-            }
-            else
-            {
-                if (value < before.data)
+                if (Parent != null)
                 {
-                    before.LeftNode = newNode;
-                }
-                else
-                {
-                    before.RightNode = newNode;
-                }
+                    Console.WriteLine(Parent.data + " ");
+                    TraversePreorder(Parent.LeftNode);
+                    TraversePreorder(Parent.RightNode);
+                    Console.WriteLine(Parent.data + " ");
+                    TraversePreorder(Parent.LeftNode);
+                    TraversePreorder(Parent.RightNode);
 
-            }
-            return true;
-        }
-
-        public void TraversePreorder(Node Parent)
-        {
-            if (Parent != null)
-            {
-                Console.WriteLine(Parent.data + " ");
-                TraversePreorder(Parent.LeftNode);
-                TraversePreorder(Parent.RightNode);
+                }
             }
         }
     }
-}
